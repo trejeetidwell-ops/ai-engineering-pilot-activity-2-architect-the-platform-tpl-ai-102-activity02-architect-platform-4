@@ -1,0 +1,26 @@
+{
+  "description": "EXAMPLE of what NOT to do — hardcoded credentials (these are fake)",
+  "warning": "This file demonstrates common security mistakes for educational purposes",
+  "bad_practices": [
+    {
+      "mistake": "Hardcoded endpoint in source code",
+      "example": "endpoint = 'https://memphis-ai.openai.azure.com/'",
+      "risk": "Endpoint exposed if code is pushed to public repository"
+    },
+    {
+      "mistake": "API key stored in Python file",
+      "example": "api_key = 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6'",
+      "risk": "Bots scrape GitHub for keys within minutes of push"
+    },
+    {
+      "mistake": ".env file committed to git",
+      "example": "git add .env && git commit -m 'add config'",
+      "risk": "Credentials visible in git history even after deletion"
+    },
+    {
+      "mistake": "Same key for dev and production",
+      "example": "Using production keys in development environment",
+      "risk": "Dev mistakes impact production; blast radius increases"
+    }
+  ]
+}

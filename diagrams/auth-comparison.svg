@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 330" role="img">
+  <title>Authentication Models Compared</title>
+  <desc>Three-column comparison diagram showing the pros, cons, and security ratings of Key-Based, RBAC, and Managed Identity authentication models for Azure AI services.</desc>
+
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0E0E0E"/>
+      <stop offset="100%" stop-color="#080808"/>
+    </linearGradient>
+    <linearGradient id="containerGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E1E1E"/>
+      <stop offset="100%" stop-color="#141414"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="330" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="450" y="30" font-family="Syne, Calibri, sans-serif" font-size="18" font-weight="bold" fill="#FAFAFA" text-anchor="middle">Authentication Models Compared</text>
+  <rect x="370" y="35" width="160" height="3" rx="1.5" fill="#FFBF3B"/>
+
+  <!-- Vertical dividers -->
+  <line x1="300" y1="55" x2="300" y2="295" stroke="#333" stroke-width="1"/>
+  <line x1="600" y1="55" x2="600" y2="295" stroke="#333" stroke-width="1"/>
+
+  <!-- === COLUMN 1: Key-Based === -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="55" width="240" height="30" rx="4" fill="url(#containerGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="30" y="55" width="240" height="4" rx="2" fill="#FFBF3B"/>
+    <text x="150" y="76" font-family="Syne, Calibri, sans-serif" font-size="12" font-weight="bold" fill="#FFBF3B" text-anchor="middle">Key-Based Auth</text>
+  </g>
+
+  <!-- Pros -->
+  <text x="45" y="112" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#8DC63F">+  Simple setup</text>
+  <text x="45" y="132" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#8DC63F">+  Works anywhere</text>
+
+  <!-- Cons -->
+  <text x="45" y="162" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#E74C3C">-  Keys can leak</text>
+  <text x="45" y="182" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#E74C3C">-  No audit trail</text>
+
+  <!-- Divider line -->
+  <line x1="45" y1="200" x2="255" y2="200" stroke="#333" stroke-width="0.5"/>
+
+  <!-- Security Rating -->
+  <text x="45" y="222" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#999">Security Rating</text>
+  <text x="45" y="242" font-family="Syne, Calibri, sans-serif" font-size="14" font-weight="bold" fill="#FFBF3B">Basic</text>
+
+  <!-- Rating bar background -->
+  <rect x="45" y="252" width="200" height="6" rx="3" fill="#2A2A2A"/>
+  <!-- Rating bar fill (1/3) -->
+  <rect x="45" y="252" width="66" height="6" rx="3" fill="#FFBF3B"/>
+
+  <!-- === COLUMN 2: RBAC === -->
+  <g filter="url(#shadow)">
+    <rect x="330" y="55" width="240" height="30" rx="4" fill="url(#containerGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="330" y="55" width="240" height="4" rx="2" fill="#2D5A94"/>
+    <text x="450" y="76" font-family="Syne, Calibri, sans-serif" font-size="12" font-weight="bold" fill="#2D5A94" text-anchor="middle">Role-Based (RBAC)</text>
+  </g>
+
+  <!-- Pros -->
+  <text x="345" y="112" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#8DC63F">+  Granular control</text>
+  <text x="345" y="132" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#8DC63F">+  Full audit trail</text>
+
+  <!-- Cons -->
+  <text x="345" y="162" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#E74C3C">-  Entra ID required</text>
+  <text x="345" y="182" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#E74C3C">-  More complex setup</text>
+
+  <!-- Divider line -->
+  <line x1="345" y1="200" x2="555" y2="200" stroke="#333" stroke-width="0.5"/>
+
+  <!-- Security Rating -->
+  <text x="345" y="222" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#999">Security Rating</text>
+  <text x="345" y="242" font-family="Syne, Calibri, sans-serif" font-size="14" font-weight="bold" fill="#8DC63F">Strong</text>
+
+  <!-- Rating bar background -->
+  <rect x="345" y="252" width="200" height="6" rx="3" fill="#2A2A2A"/>
+  <!-- Rating bar fill (2/3) -->
+  <rect x="345" y="252" width="133" height="6" rx="3" fill="#8DC63F"/>
+
+  <!-- === COLUMN 3: Managed Identity === -->
+  <g filter="url(#shadow)">
+    <rect x="630" y="55" width="240" height="30" rx="4" fill="url(#containerGrad)" stroke="#333" stroke-width="1"/>
+    <rect x="630" y="55" width="240" height="4" rx="2" fill="#8DC63F"/>
+    <text x="750" y="76" font-family="Syne, Calibri, sans-serif" font-size="12" font-weight="bold" fill="#8DC63F" text-anchor="middle">Managed Identity</text>
+  </g>
+
+  <!-- Pros -->
+  <text x="645" y="112" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#8DC63F">+  No secrets in code</text>
+  <text x="645" y="132" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#8DC63F">+  Auto-rotation</text>
+
+  <!-- Cons -->
+  <text x="645" y="162" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#E74C3C">-  Azure-hosted only</text>
+  <text x="645" y="182" font-family="Source Sans 3, Calibri, sans-serif" font-size="10" fill="#E74C3C">-  Not for local dev</text>
+
+  <!-- Divider line -->
+  <line x1="645" y1="200" x2="855" y2="200" stroke="#333" stroke-width="0.5"/>
+
+  <!-- Security Rating -->
+  <text x="645" y="222" font-family="Source Sans 3, Calibri, sans-serif" font-size="9" fill="#999">Security Rating</text>
+  <text x="645" y="242" font-family="Syne, Calibri, sans-serif" font-size="14" font-weight="bold" fill="#8DC63F">Strongest</text>
+
+  <!-- Rating bar background -->
+  <rect x="645" y="252" width="200" height="6" rx="3" fill="#2A2A2A"/>
+  <!-- Rating bar fill (3/3) -->
+  <rect x="645" y="252" width="200" height="6" rx="3" fill="#8DC63F"/>
+
+  <!-- Tech901 AI-102 badge -->
+  <g opacity="0.6">
+    <rect x="790" y="290" width="100" height="20" rx="4" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+    <text x="840" y="304" font-family="Syne, Calibri, sans-serif" font-size="8" font-weight="bold" fill="#FFBF3B" text-anchor="middle">Tech901 AI-102</text>
+  </g>
+</svg>

@@ -1,0 +1,49 @@
+{
+  "description": "Simplified Azure AI pricing for cost estimation exercises",
+  "pricing_version": "2026-01",
+  "currency": "USD",
+  "services": {
+    "azure_openai": {
+      "display_name": "Azure OpenAI Service",
+      "unit": "1K tokens",
+      "unit_cost_usd": 0.005,
+      "notes": "Blended input/output rate for GPT-4o"
+    },
+    "document_intelligence": {
+      "display_name": "Azure Document Intelligence",
+      "unit": "page",
+      "unit_cost_usd": 0.01,
+      "notes": "Prebuilt model per-page pricing"
+    },
+    "ai_search": {
+      "display_name": "Azure AI Search",
+      "unit": "monthly (S1 tier)",
+      "unit_cost_usd": 250.00,
+      "notes": "Standard S1 tier flat monthly rate"
+    },
+    "ai_language": {
+      "display_name": "Azure AI Language",
+      "unit": "1K text records",
+      "unit_cost_usd": 1.00,
+      "notes": "Standard tier per 1K text records"
+    },
+    "speech": {
+      "display_name": "Azure Speech Services",
+      "unit": "audio hour",
+      "unit_cost_usd": 1.00,
+      "notes": "Standard speech-to-text per audio hour"
+    },
+    "ai_vision": {
+      "display_name": "Azure AI Vision",
+      "unit": "1K images",
+      "unit_cost_usd": 1.00,
+      "notes": "Standard tier per 1K image transactions"
+    },
+    "content_safety": {
+      "display_name": "Azure Content Safety",
+      "unit": "1K transactions",
+      "unit_cost_usd": 0.001,
+      "notes": "Per 1K transactions for text and image moderation"
+    }
+  }
+}

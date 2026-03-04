@@ -1,0 +1,300 @@
+name: Autograding
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  STUDENT_CORPUS_SEED: ${{ github.actor }}
+
+jobs:
+  grade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run student code
+        run: python app/main.py
+        continue-on-error: true
+
+      - name: Clone autograder
+        uses: actions/checkout@v4
+        with:
+          repository: Tech901/ai102-autograder-tests
+          token: ${{ secrets.AUTOGRADER_PAT }}
+          path: .autograder
+
+      # --- 26 tests, 100 points ---
+      - name: "test_student_modified_architecture_decisions"
+        id: test1
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_student_modified_architecture_decisions"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_student_modified_architecture_decisions -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_student_wrote_endpoint_regex"
+        id: test2
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_student_wrote_endpoint_regex"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_student_wrote_endpoint_regex -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_student_modified_estimate_cost"
+        id: test3
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_student_modified_estimate_cost"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_student_modified_estimate_cost -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_design_has_architecture"
+        id: test4
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_design_has_architecture"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_design_has_architecture -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_design_is_valid_json"
+        id: test5
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_design_is_valid_json"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_design_is_valid_json -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_correct_services_per_department"
+        id: test6
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_correct_services_per_department"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_correct_services_per_department -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_unique_justifications"
+        id: test7
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_unique_justifications"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_unique_justifications -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_rai_not_empty"
+        id: test8
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_rai_not_empty"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_rai_not_empty -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_min_distinct_services"
+        id: test9
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_min_distinct_services"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_min_distinct_services -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_valid_sdk_names"
+        id: test10
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_valid_sdk_names"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_valid_sdk_names -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_auth_model_mentioned"
+        id: test11
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_auth_model_mentioned"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_auth_model_mentioned -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_exact_math_311"
+        id: test12
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_exact_math_311"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_exact_math_311 -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_exact_math_public_works"
+        id: test13
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_exact_math_public_works"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_exact_math_public_works -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_budget_flag_logic"
+        id: test14
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_budget_flag_logic"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_budget_flag_logic -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_total_equals_sum"
+        id: test15
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_total_equals_sum"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_total_equals_sum -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_metric_names_valid"
+        id: test16
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_metric_names_valid"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_metric_names_valid -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_alert_rules_have_required_keys"
+        id: test17
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_alert_rules_have_required_keys"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_alert_rules_have_required_keys -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_alert_rules_cover_over_budget_departments"
+        id: test18
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_alert_rules_cover_over_budget_departments"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_alert_rules_cover_over_budget_departments -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_alert_rules_reference_valid_metrics"
+        id: test19
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_alert_rules_reference_valid_metrics"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_alert_rules_reference_valid_metrics -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_result_json_is_valid_json"
+        id: test20
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_result_json_is_valid_json"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_result_json_is_valid_json -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_no_leaked_endpoints"
+        id: test21
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_no_leaked_endpoints"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_no_leaked_endpoints -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_no_hardcoded_secrets_ast"
+        id: test22
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_no_hardcoded_secrets_ast"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_no_hardcoded_secrets_ast -v --tb=short"
+          timeout: "5"
+          max-score: "4"
+
+      - name: "test_pricing_version_present"
+        id: test23
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_pricing_version_present"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_pricing_version_present -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "test_justification_minimum_length"
+        id: test24
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_justification_minimum_length"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_justification_minimum_length -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "test_shared_resources_complete"
+        id: test25
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_shared_resources_complete"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_shared_resources_complete -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: "test_alternative_differs_from_primary"
+        id: test26
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: "test_alternative_differs_from_primary"
+          command: "python -m pytest .autograder/activity02-architect-platform/test_hidden.py::test_alternative_differs_from_primary -v --tb=short"
+          timeout: "5"
+          max-score: "3"
+
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          TEST1_RESULTS: "${{ steps.test1.outputs.result }}"
+          TEST2_RESULTS: "${{ steps.test2.outputs.result }}"
+          TEST3_RESULTS: "${{ steps.test3.outputs.result }}"
+          TEST4_RESULTS: "${{ steps.test4.outputs.result }}"
+          TEST5_RESULTS: "${{ steps.test5.outputs.result }}"
+          TEST6_RESULTS: "${{ steps.test6.outputs.result }}"
+          TEST7_RESULTS: "${{ steps.test7.outputs.result }}"
+          TEST8_RESULTS: "${{ steps.test8.outputs.result }}"
+          TEST9_RESULTS: "${{ steps.test9.outputs.result }}"
+          TEST10_RESULTS: "${{ steps.test10.outputs.result }}"
+          TEST11_RESULTS: "${{ steps.test11.outputs.result }}"
+          TEST12_RESULTS: "${{ steps.test12.outputs.result }}"
+          TEST13_RESULTS: "${{ steps.test13.outputs.result }}"
+          TEST14_RESULTS: "${{ steps.test14.outputs.result }}"
+          TEST15_RESULTS: "${{ steps.test15.outputs.result }}"
+          TEST16_RESULTS: "${{ steps.test16.outputs.result }}"
+          TEST17_RESULTS: "${{ steps.test17.outputs.result }}"
+          TEST18_RESULTS: "${{ steps.test18.outputs.result }}"
+          TEST19_RESULTS: "${{ steps.test19.outputs.result }}"
+          TEST20_RESULTS: "${{ steps.test20.outputs.result }}"
+          TEST21_RESULTS: "${{ steps.test21.outputs.result }}"
+          TEST22_RESULTS: "${{ steps.test22.outputs.result }}"
+          TEST23_RESULTS: "${{ steps.test23.outputs.result }}"
+          TEST24_RESULTS: "${{ steps.test24.outputs.result }}"
+          TEST25_RESULTS: "${{ steps.test25.outputs.result }}"
+          TEST26_RESULTS: "${{ steps.test26.outputs.result }}"
+        with:
+          runners: test1,test2,test3,test4,test5,test6,test7,test8,test9,test10,test11,test12,test13,test14,test15,test16,test17,test18,test19,test20,test21,test22,test23,test24,test25,test26

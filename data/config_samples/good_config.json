@@ -1,0 +1,25 @@
+{
+  "description": "Example of a well-configured multi-service setup",
+  "services": [
+    {
+      "name": "Azure OpenAI",
+      "endpoint_source": "environment variable AZURE_OPENAI_ENDPOINT",
+      "key_source": "environment variable AZURE_OPENAI_API_KEY",
+      "auth_method": "key-based",
+      "notes": "Keys loaded from .env file, never hardcoded"
+    },
+    {
+      "name": "Azure AI Search",
+      "endpoint_source": "environment variable AZURE_AI_SEARCH_ENDPOINT",
+      "key_source": "environment variable AZURE_AI_SEARCH_KEY",
+      "auth_method": "key-based",
+      "notes": "Consider migrating to RBAC for production"
+    }
+  ],
+  "security_practices": [
+    ".env file excluded via .gitignore",
+    "No secrets in source code",
+    "Environment-specific configs (dev/staging/prod)",
+    ".env.example with placeholders committed for documentation"
+  ]
+}

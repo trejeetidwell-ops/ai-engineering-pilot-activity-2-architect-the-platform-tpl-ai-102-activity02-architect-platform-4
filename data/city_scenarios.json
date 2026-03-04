@@ -1,0 +1,44 @@
+[
+  {
+    "department": "311 Call Center",
+    "pain_point": "Classify 2,000+ daily citizen complaints by category and urgency",
+    "capability_needed": "classification",
+    "volume": "2000 requests/day",
+    "constraints": ["must handle free-text input", "low latency for real-time triage"]
+  },
+  {
+    "department": "Public Works",
+    "pain_point": "Digitize handwritten inspection forms into structured data",
+    "capability_needed": "form_extraction",
+    "volume": "500 forms/week",
+    "constraints": ["handwriting recognition required", "structured field extraction"]
+  },
+  {
+    "department": "Parks & Recreation",
+    "pain_point": "Search 15 years of maintenance records for equipment and facility history",
+    "capability_needed": "full_text_search",
+    "volume": "50,000 documents",
+    "constraints": ["semantic search preferred", "faceted filtering by park name"]
+  },
+  {
+    "department": "Police (Community Relations)",
+    "pain_point": "Redact PII from public records before community release",
+    "capability_needed": "pii_redaction",
+    "volume": "300 documents/month",
+    "constraints": ["must detect names, SSNs, addresses", "compliance with FOIA"]
+  },
+  {
+    "department": "Mayor's Office",
+    "pain_point": "Transcribe and translate press conferences for multilingual constituents",
+    "capability_needed": "speech_to_text",
+    "volume": "10 events/month, 1-2 hours each",
+    "constraints": ["real-time transcription preferred", "Spanish and Vietnamese translation"]
+  },
+  {
+    "department": "Code Enforcement",
+    "pain_point": "Classify violation photos by type and severity level",
+    "capability_needed": "image_classification",
+    "volume": "1000 photos/month",
+    "constraints": ["must distinguish 8+ violation types", "severity scoring needed"]
+  }
+]

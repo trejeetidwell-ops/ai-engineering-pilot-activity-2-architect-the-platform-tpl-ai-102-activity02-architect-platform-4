@@ -1,0 +1,44 @@
+[
+  {
+    "department": "311 Call Center",
+    "service": "azure_openai",
+    "monthly_volume": 60000,
+    "unit": "1K tokens",
+    "budget_threshold_usd": 250.00
+  },
+  {
+    "department": "Public Works",
+    "service": "document_intelligence",
+    "monthly_volume": 2000,
+    "unit": "page",
+    "budget_threshold_usd": 15.00
+  },
+  {
+    "department": "Parks & Recreation",
+    "service": "ai_search",
+    "monthly_volume": 1,
+    "unit": "monthly (S1 tier)",
+    "budget_threshold_usd": 300.00
+  },
+  {
+    "department": "Police (Community Relations)",
+    "service": "ai_language",
+    "monthly_volume": 300,
+    "unit": "1K text records",
+    "budget_threshold_usd": 350.00
+  },
+  {
+    "department": "Mayor's Office",
+    "service": "speech",
+    "monthly_volume": 20,
+    "unit": "audio hour",
+    "budget_threshold_usd": 50.00
+  },
+  {
+    "department": "Code Enforcement",
+    "service": "ai_vision",
+    "monthly_volume": 1,
+    "unit": "1K images",
+    "budget_threshold_usd": 5.00
+  }
+]
