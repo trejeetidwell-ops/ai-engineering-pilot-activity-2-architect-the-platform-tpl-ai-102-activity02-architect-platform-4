@@ -75,8 +75,17 @@ def find_services(scenarios):
     # TODO: Implement this function to iterate through the scenarios dict and find available services
     # Find the specifications for the scenarios and services in the README
     # Use get_service_by_capability() to find appropriate services for each scenario
+    services_by_dept = {}
+    for scenario in scenarios:
+        dept = scenario.get("department")
+        capability = scenario.get("capability_needed")
+        if dept and capability:
+            services_by_dept[dept] = get_service_by_capability(capability)
+    return services_by_dept
 
-    return {}
+    
+
+    #return {}
 
 def build_architecture_decisions() -> list:
     """Return your architecture decisions for all 6 Memphis departments.
@@ -120,15 +129,120 @@ def build_architecture_decisions() -> list:
             ],
         },
         # TODO: Public Works — read data/city_scenarios.json and app/services.py
-        {},
+        {
+            'department': 'Public Works',
+            'primary_service': 'document_intelligence',
+            'model_or_tier': 'prebuilt-layout',
+            'sdk_package': 'azure-ai-formrecognizer',
+            'justification': (
+                'The public works department needs to extract information from handwritten forms'
+                'These forms often involve checking boxes while also having handwritten notes in designated fields'
+                'Document Intelligence, using its prebuilt-layout model, can handle both the structured layout of the forms'
+                'also process the handwritten notes using OCR. This model satisfies the given constraints'
+            ),
+            'alternative_considered': 'azure_openai',
+            'why_not_alternative': (
+                'While Azure OpenAI could be used to extract information from the forms,'
+                'it would require more complex prompt engineering and training to avoid parsing text'
+                'this text could exist outside the designated fields but also could be very important for future use'
+            ),
+            'responsible_ai_considerations': [
+                'PII in extracted data',
+                'data retention policies',
+            ]
+         },
         # TODO: Parks & Recreation
-        {},
+        {
+            'department': 'Parks & Recreation',
+            'primary_service': 'ai_search',
+            'model_or_tier': 'semantic_ranker',
+            'sdk_package': 'azure-search-documents',
+            'justification': (
+                'The department needs the ability to search through their historical documentation with low overhead costs.'
+                'AI Search fulfills this requirement as well as can be expanded as more parks and developments are made in the future.'
+                'The semantic ranking model will allow the discovery of relevant documents based on document content.'
+                'This will allow for relevant information to be discovered in combination with faceted search capabilities.'
+            ),
+            'alternative_considered': 'azure_openai',
+            'why_not_alternative': (
+                'While Azure OpenAI could be used to build a search solution, it would become inefficient and costly.'
+                'Azure OpenAI is optimized for generation, and classification tasks, not document retrevial.'
+                'AI Search is built to handle searches of large document collections, with features like semantic ranking & faceted navigation. '
+                'Azure OpenAI could confuse parks with similar names and would require more detailed training.'
+            ),
+            'responsible_ai_considerations': [
+                'search result bias',
+            ]
+
+        },
         # TODO: Police (Community Relations)
-        {},
+        {
+            'department': 'Police (Community Relations)',
+            'primary_service': 'AI Language',
+            'model_or_tier': 'text-analytics-model',
+            'sdk_package': 'azure-ai-textanalytics',
+            'justification': (
+                    'The Police *(Community Relations)* department needs to analyze text for PII for public records before community release.'
+                    'The ability to redact this information *(names, SSNs, addresses, etc.)* is crucial to the privacy of the citizens & victims.'
+                    'The AI Language service can also process the text for sentiment analysis & unstructured language *(slang)* in police statements/reports.' 
+                ),
+            'alternative_considered': 'azure_openai',
+            'why_not_alternative': (
+                    'While Azure OpenAI could be used for PII detection and redaction, it is not optimized for this.'
+                    'Generalization is not the best approach when looking for particular data that could violate the privacy of individuals while maintaining compliance with FOIA'
+                    'Extra training would be needed in order fulfill the desired outcome, which may slow down the workflow.'
+                ),
+            'responsible_ai_considerations': [
+                    'PII handling policies',
+                    'consent requirements',
+                ]
+        },
         # TODO: Mayor's Office
-        {},
+        {
+            'department': "Mayor's Office",
+            'primary_service': 'speech',
+            'model_or_tier': 'whispers', #whisper is a speach to text service vs neural which is text to speech
+            'sdk_package': 'azure-cognitiveservices-speech',
+            'justification': (
+                    'The Mayor’s Office needs to transcribe and translate speeches and public addresses for accessibility and record-keeping.'
+                    'Azure Speech Services, particularly the Whisper model, is designed for accurate speech-to-text transcription.'
+                    'This service can also handle real-time transcription during live events, ensuring that all citizens have access to the Mayor’s communications.'
+                    'This fulfills the real-time transcription requirement.'
+                ),
+            'alternative_considered': 'azure_openai',
+            'why_not_alternative': (
+                    'While Azure OpenAI could be used to transcribe it is not dedicated for this purpose.',
+                    'Speech has an optimized accuracy and audio pipeline for support of live events.',
+                    'This justifies why Azure Speech is a better fit for the Mayor.'
+            ),
+            'responsible_ai_considerations': [
+                    'voice consent',
+                    'deepfake prevention',
+                    'accent bias',
+            ]
+        },
         # TODO: Code Enforcement
-        {},
+        {
+            'department': 'Code Enforcement',
+            'primary_service': 'ai_vision',
+            'model_or_tier': 'custom-vision',
+            'sdk_package': 'azure-ai-vision',
+            'justification': (
+                'Code Enforcement needs to classify violation photos by violation type and produce a severity level',
+                'AI Vision offers image classification and custom training which is suitable for the stated needs',
+                'With the ability to classify images, prodive custom training, as well as being able to produce and assign a severity level',
+                'AI Vision is the best tool for this department/division'
+            ),
+            'alternative_consideration': 'azure_openai',
+            'why_not_alternative': (
+                'Azure OpenAI can label images but lacks custom vision workflows.'
+                'It will also not be able to support the development and assignment of severity scoring without advance prompt engineering & training.'
+            ),
+            'responsible_ai_considerations': [
+                'surveillance concerns',
+                'demographic bias in recognition',
+            ]
+        },
     ]
     return decisions
 
@@ -144,7 +258,17 @@ def build_shared_resources() -> dict:
     # - auth_model: explain your chosen authentication approach (mention at least
     #   one of: key-based, RBAC, or managed identity)
     # - networking: explain your network security approach
-    return {}
+    return {
+        'resource_group': 'rg-memphis-ai-platform',
+        'auth_model': (
+            'Use RBAC via Azure AD role assignments for service principals and users,'
+            'Supplemented by managed identity for automated service-to-service auth.'
+            'Key-based access is vulnerable due to the possibility of stolen keys.'
+        ),
+        'networking': (
+            'Deploy into VNet with private endpoints and NSG rules, limit public access to explicit approved IP ranges & MAC addresses.'
+        ),
+    }
 
 # ─── Part B: Cost Estimation ─────────────────────────────────────────────────
 
@@ -164,8 +288,36 @@ def estimate_cost(usage_item: dict, pricing: dict) -> dict:
     # 2. Calculate: monthly_cost = monthly_volume * unit_cost
     # 3. Compare monthly_cost to budget_threshold_usd
     # 4. Return a dict with all required fields
-    return {}
+    department = usage_item.get('department')
+    service = usage_item.get('service')
+    monthly_volume = usage_item.get('monthly_volume', 0)
+    unit = usage_item.get('unit')
+    budget_threshold_usd = usage_item.get('budget_threshold_usd', 0.0)
 
+    # lookup unit cost inside pricing['services']
+    unit_cost_usd = 0.0
+    if isinstance(pricing, dict):
+        services_dict = pricing.get('services', {})
+        svc_info = services_dict.get(service, {})
+        unit_cost_usd = svc_info.get('unit_cost_usd', 0.0)
+        if not isinstance(unit_cost_usd, (int, float)):
+            try:
+                unit_cost_usd = float(unit_cost_usd)
+            except Exception:
+                unit_cost_usd = 0.0
+    monthly_cost_usd = monthly_volume * unit_cost_usd
+    within_budget = monthly_cost_usd <= budget_threshold_usd
+
+    return {
+        'department': department,
+        'service': service,
+        'monthly_volume': monthly_volume,
+        'unit': unit,
+        'unit_cost_usd': unit_cost_usd,
+        'monthly_cost_usd': monthly_cost_usd,
+        'within_budget': within_budget,
+        'budget_threshold_usd': budget_threshold_usd,
+    }
 
 def check_budget(estimates: list) -> list:
     """Identify departments that exceed their budget threshold.
@@ -177,7 +329,7 @@ def check_budget(estimates: list) -> list:
         List of department names that are over budget
     """
     # TODO: Find departments where within_budget is False
-    return []
+    return [ e.get('department') for e in estimates if not e.get('within_budget', True)]
 
 
 # ─── Part B (cont.): Monitoring Plan ─────────────────────────────────────────
@@ -205,7 +357,57 @@ def build_monitoring_plan(estimates: list, over_budget: list) -> dict:
     #    - Use get_metrics_for_service() to find valid metric names for that service
     #    - Each alert rule needs: department, condition (metric + threshold), action
     # 3. Use the real metric names from cost_estimator.py — do not make up names
-    return {}
+    Metrics_to_track = []
+    service_metrics = {}
+
+    # collect metrics for each service mentioned in estimates
+    for estimate in estimates:
+        service = estimate.get('service')
+        if service and service not in service_metrics:
+            service_metrics[service] = get_metrics_for_service(service)
+
+    # choose up to three distinct metrics across services
+    chosen_metrics = []
+    for service, metrics_map in service_metrics.items():
+        for metric_name in metrics_map.values():
+            if len(chosen_metrics) >= 3:
+                break
+            chosen_metrics.append((service, metric_name))
+        if len(chosen_metrics) >= 3:
+            break
+
+    for service, metric_name in chosen_metrics:
+        Metrics_to_track.append({
+            'metric': metric_name,
+            'service': service,
+            'purpose': f'Track {metric_name} to identify cost and performance anomalies for {service}.',
+        })
+
+    alert_rules = []
+    for department in over_budget:
+        estimate = next((e for e in estimates if e.get('department') == department), None)
+        if not estimate:
+            continue
+        service = estimate.get('service')
+        metric_map = get_metrics_for_service(service)
+        if metric_map:
+            metric_name = next(iter(metric_map.values()))
+            condition = f'{metric_name} > expected threshold'
+        else:
+            metric_name = 'unknown'
+            condition = 'cost threshold exceeded'
+
+        alert_rules.append({
+            'department': department,
+            'condition': condition,
+            'action': 'Send alert to platform operations and schedule budget review.',
+        })
+
+
+    return {
+        'metrics_to_track': Metrics_to_track,
+        'alert_rules': alert_rules, 
+    }
 
 # ─── Reference: Config Validation & Security Audit ─────────────────────────────
 
@@ -227,7 +429,9 @@ def validate_service_config(service_name: str, endpoint: str, key: str) -> dict:
     #   - search.windows.net       (Azure AI Search)
     # Use re.match() to check whether the endpoint matches.
     # Store your pattern in the variable below.
-    pattern = ""  # TODO: replace with your regex pattern
+    pattern = "^https://[a-z0-9-]+\.((openai|cognitiveservices)\.azure\.com|search\.windows\.net)(/.*)?$"  
+    # TODO: replace with your regex pattern
+
     return {
         "service_name": service_name,
         "endpoint_valid": bool(re.match(pattern, endpoint)) if endpoint and pattern else False,
